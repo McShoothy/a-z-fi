@@ -1,0 +1,3 @@
+interface VisitorCountResponse {
+  count: number;
+}
