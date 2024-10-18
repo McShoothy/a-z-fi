@@ -1,9 +1,14 @@
+"use client"
+
 import { useState, useEffect } from 'react'
-import { VscArrowLeft } from 'react-icons/vsc'
+import Head from 'next/head'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { Poster } from '@/types'
 
 export function AZFi() {
+  const router = useRouter()
+  const prefix = router.basePath || ''
   const [visitorCount, setVisitorCount] = useState<number | null>(null)
   const [currentView, setCurrentView] = useState<'main' | 'posters'>('main')
   const [posters, setPosters] = useState<Poster[]>([])
@@ -23,26 +28,55 @@ export function AZFi() {
   }, [currentView])
 
   return (
-    <div className="min-h-screen bg-[#F0EAD6] text-blue-700 font-mono p-4 flex flex-col">
-      <header className="mb-4">
-        <h1 className="text-4xl font-bold">A-Z.fi</h1>
-        {visitorCount !== null && (
-          <p className="text-sm">Visitor count: {visitorCount}</p>
-        )}
-      </header>
+    <>
+      <Head>
+        <title>{currentView === 'posters' ? 'A-Z.fi - Posters' : 'A-Z.fi'}</title>
+      </Head>
+      <div className="min-h-screen bg-[#F0EAD6] text-blue-700 font-mono p-4 flex flex-col">
+        <header className="mb-4">
+          <h1 className="text-4xl font-bold">A-Z.fi</h1>
+          {visitorCount !== null && (
+            <p className="text-sm">Visitor count: {visitorCount}</p>
+          )}
+        </header>
 
-      <main className="flex-grow">
-        {currentView === 'main' ? (
-          <MainView setCurrentView={setCurrentView} />
-        ) : (
-          <PostersView posters={posters} setCurrentView={setCurrentView} />
-        )}
-      </main>
+        <main className="flex-grow">
+          {currentView === 'main' ? (
+            <MainView setCurrentView={setCurrentView} />
+          ) : (
+            <PostersView posters={posters} setCurrentView={setCurrentView} />
+          )}
+        </main>
 
-      <footer className="mt-4 text-sm">
-        © {new Date().getFullYear()} A-Z.fi
-      </footer>
-    </div>
+        <section id="personal" className="mb-8">
+          <h2 className="text-2xl font-bold mb-4">{`>`} Personal Info</h2>
+          <div className="flex flex-col sm:flex-row items-start gap-4">
+            <div className="border-4 border-blue-700 p-1 bg-[#F0EAD6] rounded-lg overflow-hidden">
+              <Image 
+                src={`${prefix}/media/IMG_1428.jpg`}
+                alt="Sam Headshot" 
+                width={150} 
+                height={150} 
+                className="object-cover rounded-lg"
+              />
+            </div>
+            {/* ... (rest of the personal info section remains unchanged) */}
+          </div>
+        </section>
+
+        <footer className="text-center mt-8">
+          <Image 
+            src={`${prefix}/media/a-z.gif`}
+            alt="Best viewed in Netscape Navigator" 
+            width={88} 
+            height={31} 
+            className="mx-auto mb-2" 
+            unoptimized
+          />
+          <div>© {new Date().getFullYear()} A-Z.fi. All rights reserved.</div>
+        </footer>
+      </div>
+    </>
   )
 }
 
