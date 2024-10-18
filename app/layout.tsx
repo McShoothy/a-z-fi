@@ -13,6 +13,7 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
+
 export const metadata: Metadata = {
   description: "Welcome to the retro web",
 };
