@@ -1,5 +1,6 @@
-import { AZFi } from "@/components/a-z-fi"
+import React from 'react'
+import { AZFi } from '@/components/a-z-fi'
 
-export default function Page() {
+export default function Home() {
   return <AZFi />
 }

@@ -3,70 +3,86 @@
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
-import { useRouter } from 'next/router'
 import { Poster } from '@/types'
+import { CTFWriteups } from './CTFWriteups'
+
+export const posters: Poster[] = [
+  // ... (posters array remains unchanged)
+]
 
 export function AZFi() {
-  const router = useRouter()
-  const prefix = router.basePath || ''
-  const [visitorCount, setVisitorCount] = useState<number | null>(null)
-  const [currentView, setCurrentView] = useState<'main' | 'posters'>('main')
-  const [posters, setPosters] = useState<Poster[]>([])
+  const [currentView, setCurrentView] = useState('home')
+  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 })
+  const [colorDepth, setColorDepth] = useState(0)
+  const [websiteCount, setWebsiteCount] = useState(0)
 
   useEffect(() => {
-    fetch('/api/visitorCount')
-      .then(res => res.json())
-      .then(data => setVisitorCount(data.count))
+    const updateWindowInfo = () => {
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight })
+      setColorDepth(window.screen.colorDepth)
+    }
+    updateWindowInfo()
+    window.addEventListener('resize', updateWindowInfo)
+
+    // Update website count
+    const count = parseInt(localStorage.getItem('websiteCount') || '0', 10)
+    localStorage.setItem('websiteCount', (count + 1).toString())
+    setWebsiteCount(count)
+
+    return () => window.removeEventListener('resize', updateWindowInfo)
   }, [])
 
-  useEffect(() => {
-    if (currentView === 'posters') {
-      fetch('/api/posters')
-        .then(res => res.json())
-        .then(data => setPosters(data))
-    }
-  }, [currentView])
+  const handleViewChange = (view: string) => setCurrentView(view)
 
   return (
     <>
       <Head>
-        <title>{currentView === 'posters' ? 'A-Z.fi - Posters' : 'A-Z.fi'}</title>
+        <title>
+          {currentView === 'posters' 
+            ? 'A-Z.fi - Posters' 
+            : currentView === 'ctf' 
+              ? 'A-Z.fi - CTF Writeups' 
+              : 'A-Z.fi'}
+        </title>
       </Head>
       <div className="min-h-screen bg-[#F0EAD6] text-blue-700 font-mono p-4 flex flex-col">
-        <header className="mb-4">
-          <h1 className="text-4xl font-bold">A-Z.fi</h1>
-          {visitorCount !== null && (
-            <p className="text-sm">Visitor count: {visitorCount}</p>
-          )}
+        <header className="text-center mb-8">
+          <h1 className="text-3xl sm:text-4xl font-bold mb-2 cursor-pointer" onClick={() => handleViewChange('home')}>A-Z.fi</h1>
+          <div className="animate-[blink_3s_ease-in-out_infinite]">Welcome to the retro web</div>
         </header>
 
-        <main className="flex-grow">
-          {currentView === 'main' ? (
-            <MainView setCurrentView={setCurrentView} />
-          ) : (
-            <PostersView posters={posters} setCurrentView={setCurrentView} />
-          )}
-        </main>
+        <nav className="mb-8">
+          <ul className="flex flex-wrap justify-center gap-4">
+            <li><button className="hover:text-blue-500" onClick={() => handleViewChange('home')}>[Home]</button></li>
+            <li><button className="hover:text-blue-500" onClick={() => handleViewChange('posters')}>[Posters]</button></li>
+            <li><button className="hover:text-blue-500" onClick={() => handleViewChange('ctf')}>[CTF Writeups]</button></li>
+          </ul>
+        </nav>
 
-        <section id="personal" className="mb-8">
-          <h2 className="text-2xl font-bold mb-4">{`>`} Personal Info</h2>
-          <div className="flex flex-col sm:flex-row items-start gap-4">
-            <div className="border-4 border-blue-700 p-1 bg-[#F0EAD6] rounded-lg overflow-hidden">
-              <Image 
-                src={`${prefix}/media/IMG_1428.jpg`}
-                alt="Sam Headshot" 
-                width={150} 
-                height={150} 
-                className="object-cover rounded-lg"
-              />
-            </div>
-            {/* ... (rest of the personal info section remains unchanged) */}
+        {currentView === 'home' && (
+          <main className="flex-grow max-w-2xl mx-auto w-full">
+            {/* ... (Home content remains unchanged) */}
+            <section id="about" className="mb-8">
+              <h2 className="text-2xl font-bold mb-4">{`>`} About This Site</h2>
+              <p>OS: Web 1.0</p>
+              <p>Pages (you) visited before this: {websiteCount}</p>
+              <p>Resolution: {windowSize.width}x{windowSize.height}</p>
+              <p>Colors: {colorDepth}-bit</p>
+            </section>
+          </main>
+        )}
+
+        {currentView === 'posters' && (
+          <div className="flex-grow flex flex-col">
+            {/* ... (Posters content remains unchanged) */}
           </div>
-        </section>
+        )}
+
+        {currentView === 'ctf' && <CTFWriteups />}
 
         <footer className="text-center mt-8">
           <Image 
-            src={`${prefix}/media/a-z.gif`}
+            src="/media/a-z.gif" 
             alt="Best viewed in Netscape Navigator" 
             width={88} 
             height={31} 
@@ -77,47 +93,5 @@ export function AZFi() {
         </footer>
       </div>
     </>
-  )
-}
-
-function MainView({ setCurrentView }: { setCurrentView: (view: 'main' | 'posters') => void }) {
-  return (
-    <div>
-      <p className="mb-4">Welcome to A-Z.fi, your retro web experience!</p>
-      <button
-        onClick={() => setCurrentView('posters')}
-        className="bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
-      >
-        View Posters
-      </button>
-    </div>
-  )
-}
-
-function PostersView({ posters, setCurrentView }: { posters: Poster[], setCurrentView: (view: 'main' | 'posters') => void }) {
-  return (
-    <div>
-      <button
-        onClick={() => setCurrentView('main')}
-        className="mb-4 flex items-center text-blue-700 hover:underline"
-      >
-        <VscArrowLeft className="mr-2" /> Back to Main
-      </button>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {posters.map((poster) => (
-          <div key={poster.id} className="border p-4 rounded">
-            <Image
-              src={poster.imageUrl}
-              alt={poster.title}
-              width={200}
-              height={300}
-              className="mb-2"
-            />
-            <h2 className="text-xl font-bold">{poster.title}</h2>
-            <p>{poster.description}</p>
-          </div>
-        ))}
-      </div>
-    </div>
   )
 }

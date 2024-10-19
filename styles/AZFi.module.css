@@ -1,0 +1,11 @@
+.container {
+  min-height: 100vh;
+  background-color: #F0EAD6;
+  color: #0000FF;
+  font-family: monospace;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Add more styles as needed */
