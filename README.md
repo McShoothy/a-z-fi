@@ -1,32 +1,43 @@
-# A-Z.fi - Retro Web Experience
+# A-Z.fi
 
-##  Introduction
+A-Z.fi is a nostalgic web application that brings back the charm of Web 1.0 aesthetics. Built with modern technologies, it offers a unique blend of retro design and early 2010s finnish design.
 
-A-Z.fi is a nostalgic journey back to the early days of the web. This project showcases a minimalist, retro-inspired web application that celebrates the simplicity and charm of the internet's beginnings.
+## 🌟 Features
 
-## 🚀 Features
+- Retro-inspired design with blinking text and animated elements
+- Downloadable poster gallery
+- CTF (Capture The Flag) writeups section
+- Animated globe in the corner
+- Responsive design for various screen sizes (mobile friendly)
+- Custom 404 page
 
-- Real-time visitor counter
-- Retro poster gallery
--  Authentic 90s-inspired design
+## 🛠️ Built with:
 
-## 🛠️ Getting Started
+- Next.js 14
+- React
+- TypeScript
+- Tailwind CSS
+- CSS Modules
+- Most importantly, a lot of chatGPT.
 
-### Prerequisites
+## 📁 Project Structure
 
-- Node.js (v14 or later)
-- npm (v6 or later)
+- `app/`: Next.js 13+ app directory
+- `components/`: React components
+- `lib/`: Utility functions
+- `public/`: Static assets
+- `styles/`: Global styles and CSS modules
 
-### Installation
+## Getting Started
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/Mcshoothy/a-z-fi.git
-   cd a-z-fi
+   git clone https://github.com/McShoothy/a-z.fi.git
    ```
 
 2. Install dependencies:
    ```bash
+   cd a-z.fi
    npm install
    ```
 
@@ -37,20 +48,19 @@ A-Z.fi is a nostalgic journey back to the early days of the web. This project sh
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
-## 🖥️ Usage
+## Building for Production
 
-Navigate through the site to experience the retro web design. Click on "View Posters" to see the gallery of vintage-inspired posters.
+To create a production build, run:
+```bash
+npm run build
+```      
+then deploy to your favorite hosting service.
+if you have any issues while building. please keep it to yourself. I dont know what to do either.
 
-## 🛠️ Built With
+## Contributions are welcome! Please feel free to submit a Pull Request.
 
-- [Next.js](https://nextjs.org/) - The React Framework for Production
-- [React](https://reactjs.org/) - A JavaScript library for building user interfaces
-- [TypeScript](https://www.typescriptlang.org/) - Typed JavaScript at Any Scale
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
-
-## 🙏 Acknowledgments
-
-- Inspired by the early days of the World Wide Web
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
