@@ -2,4 +2,68 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 16px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F0EAD6;
+  border: 2px solid #1D4ED8;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1D4ED8;
+  border: 2px solid #F0EAD6;
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #1E40AF;
+}
+
+::-webkit-scrollbar-button {
+  background: #1D4ED8;
+  border: 2px solid #F0EAD6;
+  height: 16px;
+}
+
+::-webkit-scrollbar-button:vertical:start {
+  border-bottom-width: 1px;
+}
+
+::-webkit-scrollbar-button:vertical:end {
+  border-top-width: 1px;
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #1D4ED8 #F0EAD6;
+}
+
 /* Add any global styles here */
