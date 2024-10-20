@@ -213,13 +213,13 @@ export function AZFi({ posters }: { posters: Array<Poster> }) {
         {currentView === 'ctf' && <CTFWriteups />}
       </div>
 
-      <footer className="text-center mt-4 flex-shrink-0">
+      <footer className="text-center mt-2 flex-shrink-0 text-xs pb-1">
         <Image 
           src="/media/a-z.gif" 
           alt="Best viewed in Netscape Navigator" 
-          width={88} 
-          height={31} 
-          className="mx-auto mb-2" 
+          width={44} 
+          height={15} 
+          className="mx-auto mb-1" 
           unoptimized
         />
         <div>© {new Date().getFullYear()} A-Z.fi. All rights reserved.</div>
