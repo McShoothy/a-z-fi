@@ -94,10 +94,10 @@ export function AZFi({ posters }: { posters: Array<Poster> }) {
       </div>
       <header className="text-center mb-4 flex-shrink-0">
         <h1 className="text-3xl sm:text-4xl font-bold mb-2 cursor-pointer" onClick={() => handleViewChange('home')}>A-Z.fi</h1>
-        <div className="animate-[blink_3s_ease-in-out_infinite]">Welcome to the retro web</div>
+        <p className="animate-[blink_3s_ease-in-out_infinite]">Welcome to the retro web</p>
       </header>
 
-      <nav className="mb-4 flex-shrink-0">
+      <nav className="mb-4 flex-shrink-0" aria-label="Main Navigation">
         <ul className="flex flex-wrap justify-center gap-4">
           <li><button className="hover:text-blue-500" onClick={() => handleViewChange('home')}>[Home]</button></li>
           <li><button className="hover:text-blue-500" onClick={() => handleViewChange('posters')}>[Posters]</button></li>
@@ -105,7 +105,7 @@ export function AZFi({ posters }: { posters: Array<Poster> }) {
         </ul>
       </nav>
 
-      <div className="flex-grow overflow-y-auto px-4 pb-8">
+      <main className="flex-grow overflow-y-auto px-4 pb-8">
         {currentView === 'home' && (
           <main className="max-w-2xl mx-auto w-full">
             <section id="home" className="mb-8">
@@ -122,25 +122,25 @@ export function AZFi({ posters }: { posters: Array<Poster> }) {
             </section>
 
             <section id="personal" className="mb-8">
-              <h2 className="text-2xl font-bold mb-4">{`>`} Personal Info</h2>
+              <h2 className="text-2xl font-bold mb-4">{`>`} About Sam Zamanimehr</h2>
               <div className="flex flex-col sm:flex-row items-start gap-4">
                 <div className="border-4 border-blue-700 p-1 bg-[#F0EAD6] rounded-lg overflow-hidden">
                   <Image 
                     src="/media/IMG_1428.jpg" 
-                    alt="Sam Headshot" 
+                    alt="Sam Zamanimehr Headshot" 
                     width={150} 
                     height={150} 
                     className="object-cover rounded-lg"
                   />
                 </div>
                 <div>
-                  <p>Name: [Sam Z.]</p>
+                  <p>Name: Sam Zamanimehr</p>
                   <p>Title: Master_Hacker</p>
-                  <p>Fun Facts:</p>
+                  <p>Fun Facts about Sam Zamanimehr:</p>
                   <ul className="list-disc list-inside pl-4">
-                    <li>I have no idea how reverse engineering works!</li>
-                    <li>I have completed LEGO Batman (the first one) 100% without dying once</li>
-                    <li>I have a collection of floppy disks</li>
+                    <li>Sam has no idea how reverse engineering works!</li>
+                    <li>Sam has completed LEGO Batman (the first one) 100% without dying once</li>
+                    <li>Sam has a collection of floppy disks</li>
                   </ul>
                 </div>
               </div>
@@ -211,7 +211,7 @@ export function AZFi({ posters }: { posters: Array<Poster> }) {
         )}
 
         {currentView === 'ctf' && <CTFWriteups />}
-      </div>
+      </main>
 
       <footer className="text-center mt-2 flex-shrink-0 text-xs pb-1">
         <Image 

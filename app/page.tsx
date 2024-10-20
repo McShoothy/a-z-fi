@@ -4,19 +4,35 @@ import { Poster } from '@/types'
 import path from 'path'
 import sharp from 'sharp'
 import fs from 'fs/promises'
+import { Metadata } from 'next'
 
-async function getImageDimensions(imagePath: string) {
+interface ImageDimensions {
+  width: number;
+  height: number;
+  aspectRatio: number;
+  resolution: string;
+}
+
+const dimensionsCache: { [key: string]: ImageDimensions } = {}
+
+async function getImageDimensions(imagePath: string): Promise<ImageDimensions> {
+  if (dimensionsCache[imagePath]) {
+    return dimensionsCache[imagePath]
+  }
+
   const fullPath = path.join(process.cwd(), 'public', imagePath);
   const metadata = await sharp(await fs.readFile(fullPath)).metadata();
   
   if (metadata.width && metadata.height) {
     const aspectRatio = metadata.width / metadata.height;
-    return {
+    const result: ImageDimensions = {
       width: metadata.width,
       height: metadata.height,
       aspectRatio: Number(aspectRatio.toFixed(2)),
       resolution: `${metadata.width}x${metadata.height}`,
     };
+    dimensionsCache[imagePath] = result;
+    return result;
   }
   
   throw new Error('Unable to get image dimensions');
@@ -41,7 +57,61 @@ async function getPosters(): Promise<Poster[]> {
   return postersWithDimensions;
 }
 
+export const metadata: Metadata = {
+  title: 'Sam Zamanimehr - A-Z.fi Retro Web Experience',
+  description: 'Explore Sam Zamanimehr\'s retro web experience at A-Z.fi. Discover unique posters and CTF writeups in a nostalgic Web 1.0 style.',
+  openGraph: {
+    title: 'Sam Zamanimehr - A-Z.fi Retro Web Experience',
+    description: 'Explore Sam Zamanimehr\'s retro web experience at A-Z.fi. Discover unique posters and CTF writeups in a nostalgic Web 1.0 style.',
+    url: 'https://a-z.fi',
+    siteName: 'Sam Zamanimehr\'s A-Z.fi',
+    images: [
+      {
+        url: 'https://a-z.fi/media/sam-zamanimehr.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Sam Zamanimehr - A-Z.fi Retro Web Experience',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Sam Zamanimehr - A-Z.fi Retro Web Experience',
+    description: 'Explore Sam Zamanimehr\'s retro web experience at A-Z.fi. Discover unique posters and CTF writeups in a nostalgic Web 1.0 style.',
+    images: ['https://a-z.fi/media/sam-zamanimehr.jpg'],
+  },
+}
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Sam Zamanimehr",
+  "url": "https://a-z.fi",
+  "sameAs": [
+    "https://github.com/yourgithub",
+    "https://linkedin.com/in/yourlinkedin",
+    // Add other social media profiles if available
+  ],
+  "jobTitle": "Master_Hacker",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "A-Z.fi"
+  },
+  "description": "Sam Zamanimehr is the creator of A-Z.fi, a retro web experience showcasing unique posters and CTF writeups."
+};
+
 export default async function Home() {
   const posters = await getPosters();
-  return <AZFi posters={posters} />
+  
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+      <AZFi posters={posters} />
+    </>
+  )
 }

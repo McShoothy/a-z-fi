@@ -1,0 +1,15 @@
+{
+  "short_name": "A-Z.fi",
+  "name": "A-Z.fi - Retro Web Experience",
+  "icons": [
+    {
+      "src": "/media/a-z.gif",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/gif"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#1D4ED8",
+  "background_color": "#F0EAD6"
+}
