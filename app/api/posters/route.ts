@@ -22,6 +22,7 @@ async function getImageDimensions(imagePath: string) {
 
 export async function GET() {
   const postersData = [
+    { id: 6, title: 'Do You See HER?', description: 'A Poster of a group', imageUrl: '/media/DoYouSeeHER.png', src: '/media/DoYouSeeHER.png', name: 'DoYouSeeHer?' },
     { id: 5, title: 'Satellites', description: 'A poster featuring satellites', imageUrl: '/media/Satelites.png', src: '/media/Satelites.png', name: 'Satellites' },
     { id: 4, title: 'Artboard 4X', description: 'A poster showcasing artboard designs', imageUrl: '/media/Artboard4x.jpg', src: '/media/Artboard4x.jpg', name: 'Artboard 4X' },
     { id: 3, title: 'NoiZu', description: 'A noisy, vibrant poster', imageUrl: '/media/NoiZu.png', src: '/media/NoiZu.png', name: 'NoiZu' },

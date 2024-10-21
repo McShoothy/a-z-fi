@@ -18,7 +18,8 @@ function Globe() {
   )
 }
 
-export function AZFi({ posters }: { posters: Array<Poster> }) {
+export function AZFi({ posters: initialPosters }: { posters: Poster[] }) {
+  const [posters, setPosters] = useState(initialPosters);
   const [currentView, setCurrentView] = useState('home')
   const [websiteCount, setWebsiteCount] = useState(0)
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 })
@@ -55,6 +56,7 @@ export function AZFi({ posters }: { posters: Array<Poster> }) {
 
   // Set up Intersection Observer
   useEffect(() => {
+    const currentRefs = posterRefs.current;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -73,16 +75,24 @@ export function AZFi({ posters }: { posters: Array<Poster> }) {
       }
     )
 
-    posterRefs.current.forEach((ref) => {
+    currentRefs.forEach((ref) => {
       if (ref) observer.observe(ref)
     })
 
     return () => {
-      posterRefs.current.forEach((ref) => {
+      currentRefs.forEach((ref) => {
         if (ref) observer.unobserve(ref)
       })
     }
   }, [])
+
+  useEffect(() => {
+    // Fetch posters from API
+    fetch('/api/posters')
+      .then(response => response.json())
+      .then(data => setPosters(data))
+      .catch(error => console.error('Error fetching posters:', error));
+  }, []);
 
   return (
     <div className={`${styles.container} min-h-screen flex flex-col`}>
