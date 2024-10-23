@@ -10,18 +10,12 @@ interface Writeup {
 }
 
 const writeups: Writeup[] = [
-  {
-    id: 1,
-    title: "HackTheBox - Lame",
-    date: "2023-05-15",
-    description: "A walkthrough of the Lame machine from HackTheBox",
-    link: "/writeups/htb-lame"
-  },
+
   {
     id: 1,
     title: "HackTheBox - Lame",
     date: "2024-07-15",
-    description: "A walkthrough of the Like-A-Glove challenge from HackTheBox",
+    description: "HTB - Like-A-Glove Writeup by McShooty",
     link: "/writeups/like-a-glove"
   },
   // Add more writeups here

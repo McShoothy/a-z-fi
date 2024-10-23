@@ -148,9 +148,9 @@ export function AZFi({ posters: initialPosters }: { posters: Poster[] }) {
                   <p>Title: Master_Hacker</p>
                   <p>Fun Facts about Sam Zamanimehr:</p>
                   <ul className="list-disc list-inside pl-4">
-                    <li>Sam has no idea how reverse engineering works!</li>
-                    <li>Sam has completed LEGO Batman (the first one) 100% without dying once</li>
-                    <li>Sam has a collection of floppy disks</li>
+                    <li>I have no idea how reverse engineering works!</li>
+                    <li>I&apos;ve completed LEGO Batman (the first one) 100% without dying once</li>
+                    <li>I also have a collection of film cameras</li>
                   </ul>
                 </div>
               </div>
@@ -168,7 +168,7 @@ export function AZFi({ posters: initialPosters }: { posters: Poster[] }) {
         )}
 
         {currentView === 'posters' && (
-          <div className="max-w-2xl mx-auto w-full">
+          <div className="max-w-4xl mx-auto w-full">
             <h2 className="text-2xl font-bold mb-4">{`>`} Posters</h2>
             <div 
               ref={postersContainerRef}
@@ -184,10 +184,10 @@ export function AZFi({ posters: initialPosters }: { posters: Poster[] }) {
                     }
                   }}
                   className="border-4 border-blue-700 p-4 rounded-lg flex flex-col items-center relative w-full snap-start snap-always transition-opacity duration-300"
-                  style={{ height: 'calc(100vh - 200px)' }}
+                  style={{ minHeight: '600px', height: 'calc(100vh - 240px)' }}
                 >
                   <div className="w-full h-full flex items-center justify-center overflow-hidden">
-                    <div className="relative w-full h-full">
+                    <div className="relative w-full h-full" style={{ minHeight: '500px' }}>
                       <Image 
                         src={poster.src} 
                         alt={poster.title} 
