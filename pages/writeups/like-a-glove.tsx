@@ -18,7 +18,7 @@ const markdownContent = `
 
 ## Challenge Description
 
-Words carry semantic information. Similar to how people can infer meaning based on a word's context, AI can derive representations for words based on their context too! However, the kinds of meaning that a model uses may not match ours. We've found a pair of AIs speaking in metaphors that we can't make any sense of! The embedding model is glove-twitter-25. Note that the flag should be fully ASCII ans starts with 'htb{'.
+Words carry semantic information. Similar to how people can infer meaning based on a word's context, AI can derive representations for words based on their context too! However, the kinds of meaning that a model uses may not match ours. We've found a pair of AIs speaking in metaphors that we can't make any sense of! The embedding model is glove-twitter-25. Note that the flag should be fully ASCII and starts with 'htb{'.
 
 In this challenge, we encounter a pair of AIs communicating in a seemingly cryptic manner, using metaphorical expressions that challenge our understanding. The embedding model at play here is **GloVe**, specifically the \`glove-twitter-25\` variant. This model was trained on Twitter data, making it adept at understanding slang and informal language often found in social media contexts.
 
@@ -53,7 +53,7 @@ To tackle this challenge effectively, it helps to visualize language models as a
 
 ![Word Plane Visualization](https://i.imgur.com/Fwp8Amp.png)
 
-In this diagram, each point represents a word, and we can think of these points as vectors in a space. For instance, if "hackthebox" is represented as the vector (1.36, 2.48), our goal is to determine the word that corresponds to the question mark in the analogy:
+In this diagram, each point represents a word, and we can think of these points as vectors in a space. For instance, "hackthebox" is represented as the vector (1.36, 2.48). Our goal is to determine the word that corresponds to the question mark in the analogy:
 \`\`\`
 Like non-mainstream is to efl, battery-powered is to?
 \`\`\`
@@ -63,7 +63,9 @@ By calculating the relationships among these words, we can infer the missing wor
 ### Mathematical Calculations
 
 To express this mathematically, let's denote the unknown word as $\\vec{x}$ (representing *word4*). We can derive the relationship as follows:
-
+$$
+\\vec{x} - \\vec{word3}\\approx \\vec{word2} - \\vec{word1}
+$$
 $$
 \\vec{x} \\approx \\vec{word2} - \\vec{word1} + \\vec{word3}
 $$
