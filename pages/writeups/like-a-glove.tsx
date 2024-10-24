@@ -4,8 +4,8 @@ import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import { Components } from 'react-markdown'
+import ReactMarkdown from 'react-markdown'
 
-const DynamicReactMarkdown = dynamic(() => import('react-markdown'), { ssr: false })
 const DynamicSyntaxHighlighter = dynamic(() => import('react-syntax-highlighter').then(mod => mod.Prism), { ssr: false })
 const DynamicInlineMath = dynamic(() => import('react-katex').then(mod => mod.InlineMath), { ssr: false })
 const DynamicBlockMath = dynamic(() => import('react-katex').then(mod => mod.BlockMath), { ssr: false })
@@ -240,13 +240,13 @@ export default function LikeAGloveWriteup(): JSX.Element {
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-4" style={{ color: '#1d4ed8' }}>HackTheBox Challenge Walkthrough: Like-A-glove</h1>
         <div className="prose prose-lg max-w-none" style={{ color: '#1d4ed8' }}>
-          <DynamicReactMarkdown
+          <ReactMarkdown
             remarkPlugins={[remarkMath]}
             rehypePlugins={[rehypeKatex]}
             components={components}
           >
             {markdownContent}
-          </DynamicReactMarkdown>
+          </ReactMarkdown>
         </div>
       </div>
     </div>

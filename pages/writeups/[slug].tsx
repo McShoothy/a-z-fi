@@ -1,69 +1,81 @@
-import { useRouter } from 'next/router'
+import { GetStaticProps, GetStaticPaths } from 'next'
+import { ParsedUrlQuery } from 'querystring'
 import fs from 'fs'
 import path from 'path'
-import dynamic from 'next/dynamic'
+import matter from 'gray-matter'
+import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
+import { serialize } from 'next-mdx-remote/serialize'
 
-export default function Writeup({ content, isMarkdown }: { content: string | null, isMarkdown: boolean }) {
-  const router = useRouter()
-  const { slug } = router.query
+interface IParams extends ParsedUrlQuery {
+  slug: string
+}
 
-  console.log(`Rendering writeup for slug: ${slug}`); // Debug log
+export const getStaticPaths: GetStaticPaths = async () => {
+  const writeupDir = path.join(process.cwd(), 'pages', 'writeups')
+  const files = fs.readdirSync(writeupDir)
 
-  if (!isMarkdown) {
-    console.log(`Attempting to load dynamic component for ${slug}`); // Debug log
-    const DynamicComponent = dynamic(() => import(`./${slug}`), { 
-      ssr: true,
-      loading: () => <p>Loading...</p>
-    })
-    return <DynamicComponent />
+  // List of pages that have their own static files
+  const staticPages = ['like-a-glove', 'lost-in-hyperspace']
+
+  const paths = files
+    .filter(filename => 
+      filename.endsWith('.tsx') && 
+      filename !== '[slug].tsx' &&
+      filename !== 'index.tsx' &&
+      !staticPages.includes(filename.replace('.tsx', ''))
+    )
+    .map(filename => ({
+      params: {
+        slug: filename.replace('.tsx', '')
+      }
+    }))
+
+  return {
+    paths,
+    fallback: 'blocking'
+  }
+}
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const { slug } = context.params as IParams
+  let markdownWithMeta = ''
+  try {
+    markdownWithMeta = fs.readFileSync(path.join(process.cwd(), 'pages', 'writeups', `${slug}.tsx`), 'utf-8')
+  } catch (error) {
+    console.error(`Error reading file: ${error}`)
+    return { notFound: true }
   }
 
+  if (slug === 'index') {
+    return { notFound: true }  // Return 404 for /writeups/index
+  }
+
+  const { data: frontMatter, content } = matter(markdownWithMeta)
+  const mdxSource = await serialize(content)
+
+  return {
+    props: {
+      frontMatter,
+      mdxSource,
+    },
+  }
+}
+
+interface WriteupProps {
+  frontMatter: {
+    title: string
+    date: string
+  }
+  mdxSource: MDXRemoteSerializeResult
+}
+
+const Writeup: React.FC<WriteupProps> = ({ frontMatter, mdxSource }) => {
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-4">{slug}</h1>
-      <div className="prose">
-        {content}
-      </div>
+    <div>
+      <h1>{frontMatter.title}</h1>
+      <MDXRemote {...mdxSource} />
     </div>
   )
 }
 
-export async function getStaticPaths() {
-  const files = fs.readdirSync(path.join(process.cwd(), 'pages', 'writeups'))
-  const paths = files
-    .filter(filename => filename.endsWith('.md')) // Only include .md files
-    .map(filename => ({
-      params: {
-        slug: filename.replace(/\.md$/, '')
-      }
-    }))
-
-  console.log(`Generated paths: ${JSON.stringify(paths)}`); // Debug log
-
-  return {
-    paths,
-    fallback: false
-  }
-}
-
-export async function getStaticProps({ params }: { params: { slug: string } }) {
-  const fullPath = path.join(process.cwd(), 'pages', 'writeups', `${params.slug}.md`)
-  
-  console.log(`Checking for file: ${fullPath}`); // Debug log
-
-  if (fs.existsSync(fullPath)) {
-    console.log(`File exists: ${fullPath}`); // Debug log
-    const content = fs.readFileSync(fullPath, 'utf8')
-    return {
-      props: {
-        content,
-        isMarkdown: true
-      }
-    }
-  } else {
-    console.log(`File does not exist: ${fullPath}`); // Debug log
-    return {
-      notFound: true,
-    }
-  }
-}
+export default Writeup

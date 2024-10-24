@@ -13,10 +13,17 @@ const writeups: Writeup[] = [
 
   {
     id: 1,
-    title: "HackTheBox - Lame",
+    title: "HackTheBox - Like-A-Glove",
     date: "2024-07-15",
     description: "HTB - Like-A-Glove Writeup by McShooty",
     link: "/writeups/like-a-glove"
+  },
+  {
+    id: 1,
+    title: "HackTheBox - Lost-In-Hyperspace",
+    date: "2024-10-23",
+    description: "HTB - Lost In Hyperspace Writeup by McShooty",
+    link: "/writeups/lost-in-hyperspace"
   },
   // Add more writeups here
 ]

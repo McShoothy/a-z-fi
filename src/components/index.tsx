@@ -14,7 +14,6 @@ export default function Home() {
       <main>
         <h1>Welcome to Your Site</h1>
         <Link href="/ctf-writeups">CTF Writeups</Link>
-        <Link href="/ctf-solutions">CTF Solutions</Link>
         <Link href="/writeups/like-a-glove">Like-A-Glove Writeup</Link>
       </main>
     </div>
